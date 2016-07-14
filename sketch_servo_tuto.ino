@@ -1,42 +1,38 @@
 #include <Servo.h>
 
 Servo servoblue;
+int button=7;
+int buttonstatus=0;
+
+int initialpos=90;
+int servingpos=50;
 
 //Include the servo library
 //The servo gets the name “servoblue”
 void setup()
 {
   pinMode(13, OUTPUT); // initialize digital pin 13 as an output.
+  pinMode(button, INPUT);
   servoblue.attach(8); //The signal line of the servo is on pin 8
+  servoblue.write(initialpos);
+  delay(500);
+  servoblue.detach();
 }
 
 void loop()
 {
-  servoblue.write(90);
-  delay(3000);
-  //Wait 3 seconds
-  servoblue.write(105);
-  delay(3000);
-  //Position 3 with an angle of 180°
-  //Wait 3 seconds
-  servoblue.write(75);
-  delay(3000);
-  //Position 2 with an angle of 90°
-  //Wait 3 seconds
-  servoblue.write(90);
   
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(300);              // wait for a second
-  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-  delay(300); 
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(300);              // wait for a second
-  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-  delay(300); 
-  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(300);              // wait for a second
-  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-  delay(300);
-  delay(3000);
+  buttonstatus=digitalRead(button);
+  if(buttonstatus == HIGH) {
+    servoblue.attach(8);
+    for(int i=0 ; i < 12 ; i++) {
+      servoblue.write(servingpos);
+      delay(300);
+      //Wait 3 seconds
+      servoblue.write(initialpos);
+      delay(300);
+    }
+    servoblue.detach();
+  }
 }
 
