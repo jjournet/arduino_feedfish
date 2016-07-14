@@ -6,7 +6,7 @@ int buttonstatus=0;
 
 int initialpos=90;
 int servingpos=50;
-unsigned long hours4nextFeeding = 8;
+unsigned long hours4nextFeeding = 12;
 unsigned long lastTime = millis();
 
 //Include the servo library
@@ -19,7 +19,9 @@ void setup()
   servoblue.write(initialpos);
   delay(500);
   servoblue.detach();
+  feedthem();
 }
+
 void feedthem()
 {
   servoblue.attach(8);
@@ -35,7 +37,7 @@ void feedthem()
 void loop()
 {
   buttonstatus=digitalRead(button);
-  if(millis() > (lastTime + 30*1000)) {
+  if(millis() > (lastTime + (hours4nextFeeding*3600*1000))) {
     feedthem();
     lastTime = millis();
   }
