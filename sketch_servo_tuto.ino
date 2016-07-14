@@ -6,6 +6,8 @@ int buttonstatus=0;
 
 int initialpos=90;
 int servingpos=50;
+unsigned long hours4nextFeeding = 8;
+unsigned long lastTime = millis();
 
 //Include the servo library
 //The servo gets the name “servoblue”
@@ -18,21 +20,29 @@ void setup()
   delay(500);
   servoblue.detach();
 }
-
+void feedthem()
+{
+  servoblue.attach(8);
+  for(int i=0 ; i < 4 ; i++) {
+    servoblue.write(servingpos);
+    delay(300);
+    //Wait 3 seconds
+    servoblue.write(initialpos);
+    delay(300);
+  }
+  servoblue.detach();
+}
 void loop()
 {
-  
   buttonstatus=digitalRead(button);
-  if(buttonstatus == HIGH) {
-    servoblue.attach(8);
-    for(int i=0 ; i < 12 ; i++) {
-      servoblue.write(servingpos);
-      delay(300);
-      //Wait 3 seconds
-      servoblue.write(initialpos);
-      delay(300);
-    }
-    servoblue.detach();
+  if(millis() > (lastTime + 30*1000)) {
+    feedthem();
+    lastTime = millis();
   }
+  delay(1000);
+
+  //if(buttonstatus == HIGH) {
+  //  feedthem();
+  //}
 }
 
