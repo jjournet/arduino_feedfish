@@ -25,7 +25,7 @@ void setup()
 void feedthem()
 {
   servoblue.attach(8);
-  for(int i=0 ; i < 4 ; i++) {
+  for(int i=0 ; i < 12 ; i++) {
     servoblue.write(servingpos);
     delay(300);
     //Wait 3 seconds
